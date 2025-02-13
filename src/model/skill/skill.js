@@ -13,6 +13,10 @@ const skill = new mongoose.Schema({
     type: String,
     required: true,
   },
+  views: {
+    type: Number,
+    default: 0,
+  },
   created_at: {
     type: String,
     required: true,

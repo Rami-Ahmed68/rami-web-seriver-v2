@@ -49,6 +49,10 @@ const work = new mongoose.Schema({
       type: String,
     },
   ],
+  views: {
+    type: Number,
+    default: 0,
+  },
   created_at: {
     type: String,
     required: true,
