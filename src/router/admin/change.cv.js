@@ -16,8 +16,14 @@ const upload_files = require("../../controller/utils/upload/upload.files");
 // import upload image to cloudinary
 const upload_cloudinary_image = require("../../controller/middleware/cloudinary/upload.cloudinary.image");
 
+// import delete image to cloudinary
+const delete_cloudinary = require("../../controller/middleware/cloudinary/delete.cloudinary.image");
+
 // import delete files method
 const delete_files = require("../../controller/utils/upload/delete.files");
+
+// import verify token method
+const verify_token = require("../../controller/utils/token/verify");
 
 router.put("/", upload_files, async (req, res, next) => {
   try {
@@ -48,6 +54,16 @@ router.put("/", upload_files, async (req, res, next) => {
           403
         )
       );
+    } else if (!req.files) {
+      // return error
+      return next(
+        new ApiError(
+          JSON.stringify({
+            english: "Sorry, you should send one image as a cv",
+          }),
+          403
+        )
+      );
     }
 
     // find the admin
@@ -64,6 +80,31 @@ router.put("/", upload_files, async (req, res, next) => {
           404
         )
       );
+    }
+
+    // verify token data
+    const verify_token_data = await verify_token(
+      req.headers.authorization,
+      next
+    );
+
+    // check if the admin's id in token is equal id in body
+    if (verify_token_data._id != req.body.admin_id) {
+      // return error
+      return next(
+        new ApiError(
+          JSON.stringify({
+            english: "Sorry, invalid admin's data",
+          }),
+          403
+        )
+      );
+    }
+
+    // check if the admin is alrady has an cv
+    if (admin.cv != "") {
+      // delete the old cv
+      await delete_cloudinary(admin.cv, next);
     }
 
     // upload the cv
