@@ -13,12 +13,12 @@ cloudinary.config({
   api_secret: process.env.API_SECRET_KEY,
 });
 
-const upload_cloudinary_image = async (file, folder, next) => {
+const upload_cloudinary_image = async (file, next) => {
   try {
     // create the image path
     const Image_path = path.join(
       __dirname,
-      `../../../../public/files/${folder}/${file.filename}`
+      `../../../../public/files/${file.filename}`
     );
 
     // upload the image to cloudinary

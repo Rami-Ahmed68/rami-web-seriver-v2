@@ -3,7 +3,8 @@
   "version": "2.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dev" : "nodemon index.ja"
   },
   "keywords": [],
   "author": "Rami Ahmed",
