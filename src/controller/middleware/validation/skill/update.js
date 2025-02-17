@@ -5,7 +5,6 @@ const validate_update_skill = (data) => {
   const Schema = Joi.object().keys({
     admin_id: Joi.string().required(),
     skill_id: Joi.string().required(),
-    name: Joi.string().allow(""),
     title: Joi.string().allow(""),
     description: Joi.string().allow(""),
     created_at: Joi.string().allow(""),

@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.router();
+const router = express.Router();
 
 // import validate api error method
 const ApiError = require("../../controller/utils/error/validate_api");
@@ -30,6 +30,31 @@ router.put("/", async (req, res, next) => {
             english: `${Error.error.details[0].message}`,
           }),
           400
+        )
+      );
+    }
+
+    // check if the body has any data for update or not
+    if (
+      !req.body.name &&
+      !req.body.password &&
+      !req.body.work &&
+      !req.body.bio &&
+      !req.body.love &&
+      !req.body.facebook &&
+      !req.body.instagram &&
+      !req.body.phone_number &&
+      !req.body.whatsapp_number &&
+      !req.body.github &&
+      !req.body.code_wars
+    ) {
+      // return error
+      return next(
+        new ApiError(
+          JSON.stringify({
+            english: "Sorry, you must send a new data to update",
+          }),
+          403
         )
       );
     }

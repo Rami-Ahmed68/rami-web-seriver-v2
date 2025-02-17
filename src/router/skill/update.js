@@ -34,6 +34,19 @@ router.put("/", async (req, res, next) => {
       );
     }
 
+    // check if the body has any data for update
+    if (!req.body.title && !req.body.description && !req.body.created_at) {
+      // return error
+      return next(
+        new ApiError(
+          JSON.stringify({
+            english: "Sorry, you must send a new data to update",
+          }),
+          403
+        )
+      );
+    }
+
     // find the admin by id
     const admin = await Admin.findById(req.body.admin_id);
 

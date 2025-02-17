@@ -14,7 +14,7 @@ const Work = require("../../model/work/work");
 const validate_update_work = require("../../controller/middleware/validation/work/update");
 
 // import upload files method
-const upload_files = require("../../controller/utils/upload/delete.files");
+const upload_files = require("../../controller/utils/upload/upload.files");
 
 // import delete uploade files method
 const delete_uploaded_files = require("../../controller/utils/upload/delete.uploaded.files");
@@ -25,7 +25,7 @@ const upload_cloudinary_image = require("../../controller/middleware/cloudinary/
 // import delete cloudinary method
 const delete_cloudinary = require("../../controller/middleware/cloudinary/delete.cloudinary.image");
 
-router.put("/", upload_files, async (req, res, next) => {
+router.get("/", upload_files, async (req, res, next) => {
   try {
     // validate body data
     const Error = validate_update_work(req.body);
