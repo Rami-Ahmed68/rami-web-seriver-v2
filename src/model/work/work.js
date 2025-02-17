@@ -25,19 +25,20 @@ const work = new mongoose.Schema({
   ],
   web_site_link: {
     type: String,
-    required: true,
+    required: false,
   },
   android_link: {
     type: String,
-    required: true,
+    required: false,
   },
   ios_link: {
     type: String,
-    required: true,
+    required: false,
   },
   type: {
     type: String,
     enum: ["Work", "Collaborations"],
+    required: true,
   },
   front_end: [
     {

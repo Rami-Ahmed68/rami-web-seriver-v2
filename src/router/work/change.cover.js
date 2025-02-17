@@ -1,39 +1,39 @@
 const express = require("express");
 const router = express.Router();
 
-// import valiadte api method
+// import validate api error method
 const ApiError = require("../../controller/utils/error/validate_api");
 
 // import admin model
 const Admin = require("../../model/admin/admin");
 
-// import skill model
-const Skill = require("../../model/skill/skill");
+// import work model
+const Work = require("../../model/work/work");
 
-// import the validate body data
-const validate_change_icon_skill = require("../../controller/middleware/validation/skill/change.icon");
+// import validate body data method
+const validate_change_cover_work = require("../../controller/middleware/validation/work/change.cover");
+
+// import verify token method
+const verify_token = require("../../controller/utils/token/verify");
 
 // import upload files method
 const upload_files = require("../../controller/utils/upload/upload.files");
 
-// import delete uplaoded files
+// import delete uploaded files method
 const delete_uploaded_files = require("../../controller/utils/upload/delete.uploaded.files");
-
-// import delete cloudinar
-const delete_cloudinary = require("../../controller/middleware/cloudinary/delete.cloudinary.image");
 
 // import upload cloudinary method
 const upload_cloudinary_image = require("../../controller/middleware/cloudinary/upload.cloudinary.image");
 
-// import the verify token method
-const verify_token = require("../../controller/utils/token/verify");
+// import delete cloudinary
+const delete_cloudinary = require("../../controller/middleware/cloudinary/delete.cloudinary.image");
 
 router.put("/", upload_files, async (req, res, next) => {
   try {
     // valiadte body data
-    const Error = validate_change_icon_skill(req.body);
+    const Error = validate_change_cover_work(req.body);
 
-    // check if the body is exists
+    // check if the body data has any error
     if (Error.error) {
       // return error
       return next(
@@ -46,13 +46,13 @@ router.put("/", upload_files, async (req, res, next) => {
       );
     }
 
-    // check if the request has a files or not
-    if (!req.files || req.files.length == 0) {
+    // check if the request has a file
+    if (!req.files) {
       // return error
       return next(
         new ApiError(
           JSON.stringify({
-            english: "Sorry, you must send an icon",
+            english: "Sorry, you must send a new cover for update",
           }),
           403
         )
@@ -65,9 +65,25 @@ router.put("/", upload_files, async (req, res, next) => {
       return next(
         new ApiError(
           JSON.stringify({
-            english: "Sorry, you cann't upload more than one icon",
+            english: "Sorry, you cann't upload more than one cover",
           }),
           403
+        )
+      );
+    }
+
+    // find the admin
+    const admin = await Admin.findById(req.body.admin_id);
+
+    // check if the admin is exists
+    if (!admin) {
+      // return error
+      return next(
+        new ApiError(
+          JSON.stringify({
+            english: "Sorry, invalid admin not found",
+          }),
+          404
         )
       );
     }
@@ -78,7 +94,7 @@ router.put("/", upload_files, async (req, res, next) => {
       next
     );
 
-    // check if the admin's token in body is equal id in token
+    // check if the admin's id in body is equal id in token
     if (verify_token_data._id != req.body.admin_id) {
       // return error
       return next(
@@ -86,58 +102,58 @@ router.put("/", upload_files, async (req, res, next) => {
           JSON.stringify({
             english: "Sorry, invalid admin's data",
           }),
-          403
+          400
         )
       );
     }
 
-    // find teh skill
-    const skill = await Skill.findById(req.body.skill_id);
+    // find teh work
+    const work = await Work.findById(req.body.work_id);
 
-    // check if the skill is exists
-    if (!skill) {
+    // check if the wor is exists
+    if (!work) {
       // return error
       return next(
         new ApiError(
           JSON.stringify({
-            english: "Sorry, invalid skill not found",
+            english: "Sorry, invalid work not found",
           }),
           404
         )
       );
     }
 
-    // upload new icon
-    const new_icon = await upload_cloudinary_image(req.files[0], next);
+    // check if the work has a cover
+    if (work.cover != "") {
+      // uploade new cover
+      const new_cover = await upload_cloudinary_image(req.files[0], next);
 
-    // delete old icon
-    await delete_cloudinary(skill.icon, next);
+      // delete old cover
+      await delete_cloudinary(work.cover, next);
 
-    // set the icon to skill
-    skill.icon = new_icon;
+      // set the uploade new cover to work
+      work.cover = new_cover;
+    }
 
-    // save the skill after updated
-    await skill.save();
-
-    // delete the uplaoded file (icon)
+    // delete the uplaoded files
     delete_uploaded_files(req.files[0], next);
+
+    // save the work after updated the cover
+    await work.save();
 
     // create response
     const response = {
       message: {
         english: "Changed successfully",
       },
-      new_icon: new_icon,
+      new_cover: work.cover,
     };
 
-    //send the resposne to client
+    // send teh response to client
     res.status(200).send(response);
   } catch (error) {
-    // check if the request has
-    if (req.files) {
-      // delete the uplaoded file (icon)
-      delete_uploaded_files(req.files[0], next);
-    }
+    // delete the uploaded files
+    delete_uploaded_files(req.files[0], next);
 
     // return error
     return next(

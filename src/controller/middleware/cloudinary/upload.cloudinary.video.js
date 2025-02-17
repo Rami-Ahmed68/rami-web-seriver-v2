@@ -1,6 +1,9 @@
-const cloudinary = require("cloudinary");
+// const cloudinary = require("cloudinary");
 const dotenv = require("dotenv");
 dotenv.config({ path: "../../../../config/.env" });
+const path = require("path");
+
+const cloudinary = require("cloudinary").v2;
 
 // api error method
 const ApiError = require("../../utils/error/validate_api");
@@ -12,26 +15,30 @@ cloudinary.config({
   api_secret: process.env.API_SECRET_KEY,
 });
 
-const delete_video_cloudinary = async (image, next) => {
+const upload_video_cloudinary = async (file, next) => {
   try {
-    // split the omage url
-    const Image_url = image.split("/");
+    // default upload options
+    const defaultOptions = {
+      resource_type: "video",
+    };
 
-    // extract the image publick Id
-    const publicId = Image_url[Image_url.length - 1].split(".")[0];
+    // create the video path
+    const video_path = path.join(
+      __dirname,
+      `../../../../public/files/${file.filename}`
+    );
 
-    // delete the image from cloudinary by his public It
-    const Data = await cloudinary.uploader.destroy(publicId);
+    // upload the video
+    const result = await cloudinary.uploader.upload(video_path, defaultOptions);
 
-    // return the data
-    return Data;
+    // return the uploaded video's url
+    return result.secure_url;
   } catch (error) {
-    // return th error
+    // return the error
     return next(
       new ApiError(
         JSON.stringify({
-          english: `${error} ...`,
-          arabic: "... عذرا خطأ اثناء حذف الفيديو",
+          english: `${error}`,
         }),
         500
       )
@@ -39,4 +46,4 @@ const delete_video_cloudinary = async (image, next) => {
   }
 };
 
-module.exports = delete_video_cloudinary;
+module.exports = upload_video_cloudinary;
