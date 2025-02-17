@@ -22,7 +22,7 @@ const admin = new mongoose.Schema({
     required: true,
   },
   bio: {
-    type: String,
+    type: [String],
     required: true,
   },
   love: {

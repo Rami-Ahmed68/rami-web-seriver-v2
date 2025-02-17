@@ -41,7 +41,7 @@ router.post("/", async (req, res, next) => {
       email: req.body.email_address,
       password: await hash(req.body.password),
       work: req.body.work,
-      bio: req.body.bio,
+      bio: req.body.bio.split("split_here"),
       love: req.body.love,
       cv: "",
       avatar: "",

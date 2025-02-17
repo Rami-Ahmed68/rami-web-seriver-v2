@@ -101,7 +101,7 @@ router.put("/", async (req, res, next) => {
         $set: {
           name: req.body.name ? req.body.name : admin.name,
           work: req.body.work ? req.body.work : admin.work,
-          bio: req.body.bio ? req.body.bio : admin.bio,
+          bio: req.body.bio ? req.body.bio.split("split_here") : admin.bio,
           love: req.body.love ? req.body.love : admin.love,
           password: req.body.password
             ? await hash(req.body.password)
