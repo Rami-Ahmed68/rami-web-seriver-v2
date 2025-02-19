@@ -19,6 +19,9 @@ const delete_cloudinary_images = require("../../controller/middleware/cloudinary
 // import delete cloudinary method
 const delete_cloudinary_video = require("../../controller/middleware/cloudinary/delete.cloudinary.video");
 
+// import verify token method
+const verify_token = require("../../controller/utils/token/verify");
+
 router.delete("/", async (req, res, next) => {
   try {
     // validate body data

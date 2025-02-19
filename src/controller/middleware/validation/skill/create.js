@@ -3,7 +3,7 @@ const Joi = require("joi");
 const validate_create_skill = (data) => {
   // create a Schema
   const Schema = Joi.object().keys({
-    name: Joi.string().required(),
+    admin_id: Joi.string().required(),
     title: Joi.string().required(),
     description: Joi.string().required(),
     created_at: Joi.string().required(),

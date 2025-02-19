@@ -5,6 +5,7 @@ const Global = (error, req, res, next) => {
     status: error.status,
     error: error,
     message: JSON.parse(error.message),
+    // message: error.message,
     stack: error.stack,
   });
 };

@@ -12,6 +12,7 @@ const admin = new mongoose.Schema({
   email_address: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,

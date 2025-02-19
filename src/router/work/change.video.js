@@ -122,18 +122,17 @@ router.put("/", upload_files, async (req, res, next) => {
         )
       );
     }
+    // uploade new video
+    const new_video = await upload_video_cloudinary(req.files[0], next);
 
     // check if the work has a video
     if (work.video != "") {
-      // uploade new video
-      const new_video = await upload_video_cloudinary(req.files[0], next);
-
       // delete old video
       await delete_cloudinary_video(work.video, next);
-
-      // set the uploade new video to work
-      work.video = new_video;
     }
+
+    // set the uploade new video to work
+    work.video = new_video;
 
     // delete the uplaoded files
     delete_uploaded_files(req.files[0], next);

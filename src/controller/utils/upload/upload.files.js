@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 });
 
 const upload_files = multer({
-  storage,
+  storage: storage,
   fileFilter: function (req, file, callback) {
     const allowedMimes = [
       "video/mp4",
@@ -24,23 +24,19 @@ const upload_files = multer({
       "video/avi",
       "image/png",
       "image/jpeg",
-      // Add other allowed video mime types here
     ];
 
     if (allowedMimes.includes(file.mimetype)) {
       callback(null, true);
     } else {
-      callback(
-        new Error(
-          JSON.stringify({
-            english:
-              "Sorry, Invalid file type. Only video files are allowed ...",
-            arabic: "... عذرا خطأ في صيغة الملف , فقط ملفات الفيديو",
-          })
-        )
+      new Error(
+        JSON.stringify({
+          english:
+            "Sorry, Invalid file type. Only video & image files are allowed ...",
+        })
       );
     }
   },
-}).array("files"); // Use .single() for uploading a single video
+}).array("files");
 
 module.exports = upload_files;

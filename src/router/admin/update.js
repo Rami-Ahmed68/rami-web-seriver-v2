@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const _ = require("lodash");
 
 // import validate api error method
 const ApiError = require("../../controller/utils/error/validate_api");
@@ -131,7 +132,19 @@ router.put("/", async (req, res, next) => {
       message: {
         english: "Updated Successfully",
       },
-      admin_data: _.pick(updated_admin, ["_id", "name", "work", "bio", "love"]),
+      admin_data: _.pick(updated_admin, [
+        "_id",
+        "name",
+        "work",
+        "bio",
+        "love",
+        "phone_number",
+        "whatsapp_number",
+        "instagram",
+        "facebook",
+        "github",
+        "code_wars",
+      ]),
     };
 
     // send the response to client

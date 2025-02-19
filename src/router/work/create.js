@@ -25,6 +25,9 @@ const upload_cloudinary_image = require("../../controller/middleware/cloudinary/
 // import upload cloudinary
 const upload_video_cloudinary = require("../../controller/middleware/cloudinary/upload.cloudinary.video");
 
+// import verify token data method
+const verify_token = require("../../controller/utils/token/verify");
+
 router.post("/", upload_files, async (req, res, next) => {
   try {
     // validate body data
@@ -129,7 +132,7 @@ router.post("/", upload_files, async (req, res, next) => {
     await work.save();
 
     // delete uplaoded files
-    for (let i = i; i < req.files.length; i++) {
+    for (let i = 0; i < req.files.length; i++) {
       delete_uploaded_files(req.files[i], next);
     }
 

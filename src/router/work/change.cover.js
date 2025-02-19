@@ -123,17 +123,17 @@ router.put("/", upload_files, async (req, res, next) => {
       );
     }
 
+    // uploade new cover
+    const new_cover = await upload_cloudinary_image(req.files[0], next);
+
     // check if the work has a cover
     if (work.cover != "") {
-      // uploade new cover
-      const new_cover = await upload_cloudinary_image(req.files[0], next);
-
       // delete old cover
       await delete_cloudinary(work.cover, next);
-
-      // set the uploade new cover to work
-      work.cover = new_cover;
     }
+
+    // set the uploade new cover to work
+    work.cover = new_cover;
 
     // delete the uplaoded files
     delete_uploaded_files(req.files[0], next);

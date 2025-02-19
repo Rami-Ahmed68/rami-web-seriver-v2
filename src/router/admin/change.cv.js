@@ -20,7 +20,7 @@ const upload_cloudinary_image = require("../../controller/middleware/cloudinary/
 const delete_cloudinary = require("../../controller/middleware/cloudinary/delete.cloudinary.image");
 
 // import delete files method
-const delete_files = require("../../controller/utils/upload/delete.files");
+const delete_uploaded_files = require("../../controller/utils/upload/delete.uploaded.files");
 
 // import verify token method
 const verify_token = require("../../controller/utils/token/verify");
@@ -111,13 +111,13 @@ router.put("/", upload_files, async (req, res, next) => {
     const new_cv = await upload_cloudinary_image(req.files[0], next);
 
     // set the new avatar's url to admin
-    admin.avatar = new_cv;
+    admin.cv = new_cv;
 
     // save the avatra after updated the avatar
     await admin.save();
 
     // delete the uploaded avatar from fiels folder
-    delete_files(req.files[0], next);
+    delete_uploaded_files(req.files[0], next);
 
     // create response
     const response = {
@@ -133,7 +133,7 @@ router.put("/", upload_files, async (req, res, next) => {
     // check if the request has any images file
     if (req.files) {
       // delete the uploaded cv from fiels folder
-      delete_files(req.files[0], next);
+      delete_uploaded_files(req.files[0], next);
     }
 
     // return error

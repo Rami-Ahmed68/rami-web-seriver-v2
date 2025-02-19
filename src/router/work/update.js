@@ -25,7 +25,10 @@ const upload_cloudinary_image = require("../../controller/middleware/cloudinary/
 // import delete cloudinary method
 const delete_cloudinary = require("../../controller/middleware/cloudinary/delete.cloudinary.image");
 
-router.get("/", upload_files, async (req, res, next) => {
+// import verify token metho
+const verify_token = require("../../controller/utils/token/verify");
+
+router.put("/", upload_files, async (req, res, next) => {
   try {
     // validate body data
     const Error = validate_update_work(req.body);
@@ -35,7 +38,7 @@ router.get("/", upload_files, async (req, res, next) => {
       // return error
       return next(
         new ApiError(
-          JONS.stringify({
+          JSON.stringify({
             english: Error.error.details[0].message,
           }),
           400
@@ -103,14 +106,14 @@ router.get("/", upload_files, async (req, res, next) => {
     }
 
     // find the work
-    const work = await work.findById(req.body.work_id);
+    const work = await Work.findById(req.body.work_id);
 
     // check if the work is exists
     if (!work) {
       // return error
       return next(
         new ApiError(
-          JONS.stringify({
+          JSON.stringify({
             englihs: "Sorry, invalid work not found",
           }),
           404
@@ -204,7 +207,7 @@ router.get("/", upload_files, async (req, res, next) => {
     }
 
     // return error
-    return enxt(
+    return next(
       new ApiError(
         JSON.stringify({
           english: `${error}`,

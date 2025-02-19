@@ -26,27 +26,9 @@ router.get("/", async (req, res, next) => {
       );
     }
 
-    // update the views
-    admin.views += 1;
-
-    // save the admin after updated
-    await admin.save();
-
     // create response
     const response = {
-      admin_data: _.pick(admin, [
-        "name",
-        "avatar",
-        "work",
-        "bio",
-        "love",
-        "instagram",
-        "facebook",
-        "phone_number",
-        "whatsapp_number",
-        "github",
-        "code_wars",
-      ]),
+      admin_data: _.pick(admin, ["cv"]),
     };
 
     // send the response to client

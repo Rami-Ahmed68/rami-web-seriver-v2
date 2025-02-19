@@ -26,3 +26,6 @@ const message = new mongoose.Schema({
     required: true,
   },
 });
+
+const Message = mongoose.model("message", message);
+module.exports = Message;

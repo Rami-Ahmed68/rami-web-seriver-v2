@@ -14,7 +14,7 @@ const Message = require("../../model/message/message");
 const verify_token = require("../../controller/utils/token/verify");
 
 // import validate body data
-const validate_delete_message = require("../../controller/middleware/validation/message/create");
+const validate_delete_message = require("../../controller/middleware/validation/message/delete");
 
 router.delete("/", async (req, res, next) => {
   try {

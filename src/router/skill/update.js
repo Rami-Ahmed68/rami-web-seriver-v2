@@ -24,7 +24,7 @@ router.put("/", async (req, res, next) => {
     // check if the body data has any error
     if (Error.error) {
       // return the error
-      return enxt(
+      return next(
         new ApiError(
           JSON.stringify({
             english: Error.error.details[0].message,

@@ -35,10 +35,28 @@ router.post("/", async (req, res, next) => {
       );
     }
 
+    // find the admin email id
+    const admin_email = await Admin.findOne({
+      email_address: req.body.email_address,
+    });
+
+    // check if the admin_email is exists
+    if (admin_email) {
+      // return error
+      return next(
+        new ApiError(
+          JSON.stringify({
+            english: "Sorry, the email address is already used",
+          }),
+          403
+        )
+      );
+    }
+
     // create a admin
     const admin = new Admin({
       name: req.body.name,
-      email: req.body.email_address,
+      email_address: req.body.email_address,
       password: await hash(req.body.password),
       work: req.body.work,
       bio: req.body.bio.split("split_here"),
@@ -58,7 +76,7 @@ router.post("/", async (req, res, next) => {
     const generated_token = generate_token(admin._id, admin.email_address);
 
     // save the created admin in data base
-    awaitadmin.save();
+    await admin.save();
 
     // create response
     const response = {
@@ -69,7 +87,7 @@ router.post("/", async (req, res, next) => {
         "_id",
         "name",
         "avatar",
-        "email_adress",
+        "email_address",
         "joind_at",
       ]),
       token: generated_token,
