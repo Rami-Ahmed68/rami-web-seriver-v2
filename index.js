@@ -114,7 +114,7 @@ app.use(Global);
 
 //! connecting to data base
 mongoose
-  .connect(process.env.DATA_BASE)
+  .connect(process.env.DATA_BASE_URI)
   .then(() => {
     console.log(`
       ##################################################
