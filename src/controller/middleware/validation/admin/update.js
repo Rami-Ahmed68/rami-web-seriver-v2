@@ -9,6 +9,7 @@ const validate_update_admin = (data) => {
     work: Joi.string().allow(""),
     bio: Joi.string().allow(""),
     love: Joi.string().allow(""),
+    linked_in: Joi.string().allow(""),
     facebook: Joi.string().allow(""),
     instagram: Joi.string().allow(""),
     phone_number: Joi.string().allow(""),

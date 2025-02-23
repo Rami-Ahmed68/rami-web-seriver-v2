@@ -9,6 +9,7 @@ const validate_create_admin = (data) => {
     work: Joi.string().required(),
     bio: Joi.string().required(),
     love: Joi.string().required(),
+    linked_in: Joi.string().required(),
     facebook: Joi.string().required(),
     instagram: Joi.string().required(),
     phone_number: Joi.string().required(),

@@ -40,6 +40,7 @@ router.get("/", async (req, res, next) => {
         "work",
         "bio",
         "love",
+        "linked_in",
         "instagram",
         "facebook",
         "phone_number",

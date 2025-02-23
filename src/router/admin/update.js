@@ -42,6 +42,7 @@ router.put("/", async (req, res, next) => {
       !req.body.work &&
       !req.body.bio &&
       !req.body.love &&
+      !req.body.linked_in &&
       !req.body.facebook &&
       !req.body.instagram &&
       !req.body.phone_number &&
@@ -113,6 +114,7 @@ router.put("/", async (req, res, next) => {
           whatsapp_number: req.body.whatsapp_number
             ? req.body.whatsapp_number
             : admin.whatsapp_number,
+          linked_in: req.body.linked_in ? req.body.linked_in : admin.linked_in,
           facebook: req.body.facebook ? req.body.facebook : admin.facebook,
           instagram: req.body.instagram ? req.body.instagram : admin.instagram,
           github: req.body.github ? req.body.github : admin.github,
@@ -138,6 +140,7 @@ router.put("/", async (req, res, next) => {
         "work",
         "bio",
         "love",
+        "linked_in",
         "phone_number",
         "whatsapp_number",
         "instagram",

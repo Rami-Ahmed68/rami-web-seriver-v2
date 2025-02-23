@@ -42,6 +42,10 @@ const admin = new mongoose.Schema({
     type: String,
     required: true,
   },
+  linked_in: {
+    type: String,
+    required: true,
+  },
   facebook: {
     type: String,
     required: true,
