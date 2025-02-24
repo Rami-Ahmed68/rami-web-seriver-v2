@@ -12,10 +12,12 @@ const work = new mongoose.Schema({
   cover: {
     type: String,
     required: false,
+    default: "",
   },
   video: {
     type: String,
     required: false,
+    default: "",
   },
   images: [
     {
