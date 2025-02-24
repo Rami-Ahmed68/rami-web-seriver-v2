@@ -26,14 +26,6 @@ router.get("/", async (req, res, next) => {
       works_data: works,
     };
 
-    // calculat the data size
-    const responseString = JSON.stringify(response);
-
-    const contentLength = Buffer.byteLength(responseString, "utf8");
-
-    // set the Content-Length to header
-    res.setHeader("Content-Length", contentLength);
-
     // send teh response
     res.status(200).send(response);
   } catch (error) {
