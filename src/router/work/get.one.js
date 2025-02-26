@@ -9,13 +9,13 @@ const Work = require("../../model/work/work");
 
 router.get("/", async (req, res, next) => {
   try {
-    // check if the request has work_id
-    if (!req.query.work_id) {
+    // check if the request has work_title
+    if (!req.query.work_title) {
       // return error
       return next(
         new ApiError(
           JSON.stringify({
-            english: "Sorry, you must send a work's id",
+            english: "Sorry, you must send a work's title",
           }),
           403
         )
@@ -23,7 +23,7 @@ router.get("/", async (req, res, next) => {
     }
 
     // get work
-    const work = await Work.findById(req.query.work_id);
+    const work = await Work.findOne({ title: req.query.work_title });
 
     // update the work views
     work.views += 1;

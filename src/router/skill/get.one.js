@@ -9,13 +9,13 @@ const Skill = require("../../model/skill/skill");
 
 router.get("/", async (req, res, next) => {
   try {
-    // check if request has a skill id
-    if (!req.query.skill_id) {
+    // check if request has a skill title
+    if (!req.query.skill_title) {
       // return error
       return next(
         new ApiError(
           JSON.stringify({
-            english: "Sorry, you must send the skill's id",
+            english: "Sorry, you must send the skill's title",
           }),
           403
         )
@@ -23,7 +23,7 @@ router.get("/", async (req, res, next) => {
     }
 
     // get skill
-    const skill = await Skill.findById(req.query.skill_id);
+    const skill = await Skill.findOne({ title: req.query.skill_title });
 
     // update the skill's views
     skill.views += 1;
