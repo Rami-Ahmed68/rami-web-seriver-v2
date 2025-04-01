@@ -82,6 +82,8 @@ router.put("/", upload_files, async (req, res, next) => {
       );
     }
 
+    conssole.log(req.files);
+
     // verify token data
     const verify_token_data = await verify_token(
       req.headers.authorization,
@@ -106,15 +108,19 @@ router.put("/", upload_files, async (req, res, next) => {
       // delete the old avatar
       await delete_cloudinary(admin.avatar, next);
     }
-
+    console.log("deleted");
     // upload the avatar
     const new_avatar = await upload_cloudinary_image(req.files[0], next);
+    console.log("uploaded");
 
     // set the new avatar's url to admin
     admin.avatar = new_avatar;
+    console.log("seted");
 
     // save the avatra after updated the avatar
     await admin.save();
+
+    console.log("saved");
 
     // delete the uploaded avatar from fiels folder
     delete_uploaded_files(req.files[0], next);
