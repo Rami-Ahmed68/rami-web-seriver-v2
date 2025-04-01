@@ -66,9 +66,12 @@ router.put("/", upload_files, async (req, res, next) => {
       );
     }
 
+    console.log(req.body.admin_id);
+    console.log(req.body);
+
     // find the admin
     const admin = await Admin.findById(req.body.admin_id);
-console.log(admin)
+    console.log(admin);
     // check if the admin is exists
     if (!admin) {
       // return error
