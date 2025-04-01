@@ -82,7 +82,7 @@ router.put("/", upload_files, async (req, res, next) => {
       );
     }
 
-    conssole.log(req.files);
+    console.log(req.files);
 
     // verify token data
     const verify_token_data = await verify_token(

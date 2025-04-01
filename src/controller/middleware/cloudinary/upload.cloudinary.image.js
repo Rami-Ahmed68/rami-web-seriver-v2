@@ -29,6 +29,7 @@ const upload_cloudinary_image = async (file, next) => {
     // return the data
     return data.secure_url;
   } catch (error) {
+    console.log(error);
     return next(
       new ApiError(
         JSON.stringify({
