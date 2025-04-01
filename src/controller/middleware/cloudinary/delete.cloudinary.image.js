@@ -26,7 +26,6 @@ const delete_cloudinary = async (image, next) => {
     // return the data
     return Data;
   } catch (error) {
-    console.log(error);
     // return th error
     return next(
       new ApiError(
