@@ -132,7 +132,7 @@ router.put("/", upload_files, async (req, res, next) => {
             : work.description,
           web_site_link: req.body.web_site_link
             ? req.body.web_site_link
-            : wrk.web_site_link,
+            : work.web_site_link,
           android_link: req.body.android_link
             ? req.body.android_link
             : work.android_link,
