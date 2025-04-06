@@ -202,8 +202,10 @@ router.put("/", upload_files, async (req, res, next) => {
     res.status(200).send(response);
   } catch (error) {
     // delete the uploaded images
-    for (let i = 0; i < req.files.length; i++) {
-      delete_uploaded_files(req.files[i], next);
+    if (req.files) {
+      for (let i = 0; i < req.files.length; i++) {
+        delete_uploaded_files(req.files[i], next);
+      }
     }
 
     // return error
