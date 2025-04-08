@@ -83,7 +83,7 @@ router.delete("/", async (req, res, next) => {
       // return error
       return next(
         new ApiError(
-          JOSN.stringify({
+          JSON.stringify({
             english: "Sorry, invalid work nt found",
           }),
           404
